@@ -1,17 +1,16 @@
-import { Outlet } from 'react-router'
-import './App.css'
-import { Button } from './components/ui/button'
+import { Outlet } from "react-router";
+import "./App.css";
+import Navbar from "./components/layout/Navbar";
+import Footer from "./components/layout/Footer";
 
 function App() {
-
-
   return (
-    <>
-    <h1 className='bg-teal-300'>Header / navber</h1>
-  <Outlet/>
-    <p className='bg-slate-400'> footer </p>
-    </>
-  )
+    <div className="min-h-screen flex flex-col">
+      <Navbar/>
+      <div className="grow-1"><Outlet /></div>
+      <Footer/>
+    </div>
+  );
 }
 
-export default App
+export default App;
