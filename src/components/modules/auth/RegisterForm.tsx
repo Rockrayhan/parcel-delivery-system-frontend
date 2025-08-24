@@ -115,7 +115,7 @@ export function RegisterForm({
                   <div className="grid gap-2">
                     <Label htmlFor="role">Role</Label>
                     <select id="role" {...field} className="input-class  border border-slate-600 p-2 rounded-md">
-                      <option className="bg-slate-900" value="">Select role</option>
+                      <option className="bg-slate-900" disabled value="">Select role</option>
                       <option className="bg-slate-900" value="sender">Sender</option>
                       <option className="bg-slate-900" value="receiver">Receiver</option>
                     </select>
