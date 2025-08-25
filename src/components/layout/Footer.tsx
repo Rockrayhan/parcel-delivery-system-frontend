@@ -3,7 +3,7 @@ import Logo from "../logo";
 const Footer = () => {
   return (
     <footer className="bg-white dark:bg-gray-900">
-      <div className="mx-auto max-w-screen space-y-8 px-4 p-6 sm:px-6 lg:space-y-16 lg:px-8">
+      <div className="mx-auto max-w-screen space-y-8 px-4 p-6 sm:px-6  lg:px-8">
         <div className="sm:flex sm:items-center sm:justify-between">
           <div className="text-teal-600 dark:text-teal-300">
             <Logo/>
@@ -128,7 +128,7 @@ const Footer = () => {
           </ul>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 border-t border-gray-100 pt-8 sm:grid-cols-2 lg:grid-cols-4 lg:pt-16 dark:border-gray-800">
+        <div className="grid grid-cols-1 gap-8 border-t border-gray-100 pt-8 sm:grid-cols-2 lg:grid-cols-4 dark:border-gray-800">
           <div>
             <p className="font-medium text-gray-900 dark:text-white">
               Services

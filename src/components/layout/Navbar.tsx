@@ -25,6 +25,8 @@ const navigationLinks = [
 
 export default function Navbar() {
   const { data, isLoading } = useUserInfoQuery(undefined);
+  // console.log("user id" , data?.data?._id);
+  
 
   const [logout] = useLogoutMutation();
   const dispatch = useAppDispatch();
@@ -36,17 +38,15 @@ export default function Navbar() {
   //   dispatch(authApi.util.resetApiState());
   // };
 
-
   const handleLogout = async () => {
-  try {
-    await logout(undefined).unwrap(); // wait for API call
-    dispatch(authApi.util.resetApiState()); // clear RTKQ cache
-    // optional: redirect to home/login
-  } catch (error) {
-    console.error("Logout failed:", error);
-  }
-};
-
+    try {
+      await logout(undefined).unwrap(); // wait for API call
+      dispatch(authApi.util.resetApiState()); // clear RTKQ cache
+      // optional: redirect to home/login
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <header className="border-b px-4 md:px-6">
@@ -122,9 +122,9 @@ export default function Navbar() {
                   Logout
                 </Button>
               ) : (
-                <Button variant="default">
-                  <Link to="/login">Log In</Link>
-                </Button>
+                <Link to="/login">
+                  <Button variant="default">Log In</Button>
+                </Link>
               )}
             </>
           )}

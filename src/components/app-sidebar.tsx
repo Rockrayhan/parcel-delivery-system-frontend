@@ -64,6 +64,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton asChild >
                           <Link to={item.url}>{item.title}</Link>
+                          {/* <Link to="/"> Home </Link> */}
                         </SidebarMenuButton>
                       </SidebarMenuItem>
                     ))}
