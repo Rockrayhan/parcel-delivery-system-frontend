@@ -3,14 +3,13 @@ import { baseApi } from "@/redux/baseApi";
 export const parcelApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
 
-
     createParcel: builder.mutation({
       query: (createParcel) => ({
         url: "/parcel/create",
         method: "POST",
         data: createParcel,
       }),
-      invalidatesTags:["PARCEL"],
+      invalidatesTags: ["PARCEL"],
     }),
 
     getMyParcels: builder.query({
@@ -21,13 +20,22 @@ export const parcelApi = baseApi.injectEndpoints({
       providesTags: ["PARCEL"],
     }),
 
-    
+
+    cancelParcel: builder.mutation({
+      query: ({ id }) => ({
+        url: `/parcel/cancel/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["PARCEL"],
+    }),
+
+
+
+
   }),
 });
 
-export const { 
-    
-useCreateParcelMutation,
-useGetMyParcelsQuery, 
-
- } = parcelApi;
+export const { useCreateParcelMutation,
+   useGetMyParcelsQuery,
+  useCancelParcelMutation,
+  } = parcelApi;

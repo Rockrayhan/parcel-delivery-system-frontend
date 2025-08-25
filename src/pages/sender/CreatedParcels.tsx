@@ -1,4 +1,5 @@
 import { CreatedParcelModal } from "@/components/modules/sender/CreateParcelModal";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -7,19 +8,44 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useGetMyParcelsQuery } from "@/redux/features/parcel/parcel.api";
+import {
+  useCancelParcelMutation,
+  useGetMyParcelsQuery,
+} from "@/redux/features/parcel/parcel.api";
 import type { IParcelItem } from "@/types/parcel.interface";
+import { toast } from "sonner";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const CreatedParcels = () => {
   const { data } = useGetMyParcelsQuery(undefined);
   console.log(data);
+  const [cancelParcel, { isLoading: isCancelling }] = useCancelParcelMutation();
 
-
+  const handleCancel = async (id: string) => {
+    try {
+      const res = await cancelParcel({ id }).unwrap();
+      if (res.success) {
+        toast.success("Parcel cancelled successfully");
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Failed to cancel parcel");
+    }
+  };
 
   return (
     <div>
-
-        <CreatedParcelModal/>
+      <CreatedParcelModal />
 
       <div className="max-w-6xl mx-auto mt-8 border border-slate-400 rounded-lg shadow">
         <h1 className="text-center py-4 text-xl font-semibold">
@@ -69,6 +95,44 @@ const CreatedParcels = () => {
                   >
                     {item.currentStatus}
                   </span>
+                </TableCell>
+                <TableCell>
+        {item.currentStatus === "Requested" || item.currentStatus === "Approved" ? (
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          disabled={isCancelling}
+                        >
+                          Cancel
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Cancel Parcel?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Are you sure you want to cancel this parcel?
+                            <br />
+                            This action cannot be undone.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Close</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={() => handleCancel(item._id)}
+                            disabled={isCancelling}
+                          >
+                            {isCancelling ? "Cancelling..." : "Confirm Cancel"}
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  ) : (
+                    <Button disabled size="sm" variant="destructive">
+                      Non-Cancelable
+                    </Button>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
