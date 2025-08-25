@@ -13,7 +13,7 @@ import {
   useUserInfoQuery,
 } from "@/redux/features/auth/auth.api";
 import { useAppDispatch } from "@/redux/hook";
-import { Link, useLocation } from "react-router";
+import { Link } from "react-router";
 
 const navigationLinks = [
   { href: "/", label: "Home", role: "PUBLIC" },
@@ -26,11 +26,11 @@ const navigationLinks = [
 export default function Navbar() {
   const { data, isLoading } = useUserInfoQuery(undefined);
   // console.log("user id" , data?.data?._id);
+  const email = data?.data?.email;
   
 
   const [logout] = useLogoutMutation();
   const dispatch = useAppDispatch();
-  const email = data?.data?.email;
   // console.log(email);
 
   // const handleLogout = async () => {

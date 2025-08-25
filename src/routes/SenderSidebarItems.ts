@@ -4,10 +4,10 @@ import type { ISidebarItems } from "@/types";
 
 export const SenderSidebarItems : ISidebarItems[] = [
   {
-    title: "Parcels",
+    title: "Sender Dashboard Menu",
     items: [
       {
-        title: "Created parcels",
+        title: "All Created parcels",
         url: "/sender/created-parcels",
         component : CreatedParcels,
       },

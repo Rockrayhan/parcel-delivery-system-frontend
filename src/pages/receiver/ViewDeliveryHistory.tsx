@@ -8,13 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  useCancelParcelMutation,
-  useGetMyParcelsQuery,
-} from "@/redux/features/parcel/parcel.api";
 import type { IParcelItem } from "@/types/parcel.interface";
-import { toast } from "sonner";
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,29 +21,18 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-const CreatedParcels = () => {
-  const { data } = useGetMyParcelsQuery(undefined);
-  console.log(data);
-  const [cancelParcel, { isLoading: isCancelling }] = useCancelParcelMutation();
+import { useGetDeliveredParcelsQuery } from "@/redux/features/parcel/parcel.api";
 
-  const handleCancel = async (id: string) => {
-    try {
-      const res = await cancelParcel({ id }).unwrap();
-      if (res.success) {
-        toast.success("Parcel cancelled successfully");
-      }
-    } catch (error: any) {
-      toast.error(error?.data?.message || "Failed to cancel parcel");
-    }
-  };
+const ViewDeliveryHistory = () => {
+
+
+  const { data } = useGetDeliveredParcelsQuery(undefined);
 
   return (
     <div>
-      <CreatedParcelModal />
-
       <div className="max-w-6xl mx-auto mt-8 border border-slate-400 rounded-lg shadow">
         <h1 className="text-center py-4 text-xl font-semibold">
-          All My Created Parcels ({data?.data?.length || 0})
+          All My Delivered Parcels ({data?.data?.length || 0})
         </h1>
 
         <Table>
@@ -62,9 +45,9 @@ const CreatedParcels = () => {
               <TableHead className="text-white">Pickup location</TableHead>
               <TableHead className="text-white">Delivered from</TableHead>
               <TableHead className="text-white">Delivery Date</TableHead>
-              <TableHead className="text-white"> Receiver info </TableHead>
+              <TableHead className="text-white"> Sender's info </TableHead>
               <TableHead className="text-white">Status</TableHead>
-              <TableHead className="text-center text-white">Action</TableHead>
+              {/* <TableHead className="text-center text-white">Action</TableHead> */}
             </TableRow>
           </TableHeader>
 
@@ -82,9 +65,9 @@ const CreatedParcels = () => {
                 </TableCell>
                 <TableCell>
                   <small>
-                    Name: {item.receiver.name}
+                    Name: {item?.sender.name}
                     <br />
-                    Email: ({item.receiver.email})
+                    Email: ({item?.sender.email})
                   </small>
                 </TableCell>
                 <TableCell>
@@ -102,24 +85,24 @@ const CreatedParcels = () => {
                     {item.currentStatus}
                   </span>
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   {item.currentStatus === "Requested" ||
                   item.currentStatus === "Approved" ? (
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button
-                          variant="destructive"
+                          className="bg-green-600"
                           size="sm"
-                          disabled={isCancelling}
+                          disabled={isConfirming}
                         >
-                          Cancel
+                          Confim Delivery
                         </Button>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>Cancel Parcel?</AlertDialogTitle>
+                          <AlertDialogTitle>Confirm Parcel?</AlertDialogTitle>
                           <AlertDialogDescription>
-                            Are you sure you want to cancel this parcel?
+                            Are you sure you want to Confirm this parcel?
                             <br />
                             This action cannot be undone.
                           </AlertDialogDescription>
@@ -127,20 +110,22 @@ const CreatedParcels = () => {
                         <AlertDialogFooter>
                           <AlertDialogCancel>Close</AlertDialogCancel>
                           <AlertDialogAction
-                            onClick={() => handleCancel(item._id)}
-                            disabled={isCancelling}
+                            onClick={() => handleConfirm(item._id)}
+                            disabled={isConfirming}
                           >
-                            {isCancelling ? "Cancelling..." : "Confirm Cancel"}
+                            {isConfirming
+                              ? "Confirming..."
+                              : "Confirm delivery"}
                           </AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
                   ) : (
-                    <Button disabled size="sm" variant="destructive">
-                      Non-Cancelable
+                    <Button disabled size="sm" className="bg-green-600">
+                      Non-Confirmable
                     </Button>
                   )}
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>
@@ -150,4 +135,4 @@ const CreatedParcels = () => {
   );
 };
 
-export default CreatedParcels;
+export default ViewDeliveryHistory;
