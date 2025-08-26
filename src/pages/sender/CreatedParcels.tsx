@@ -26,11 +26,22 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useState } from "react";
+import Pagination from "@/components/Pagination";
 
 const CreatedParcels = () => {
   const { data } = useGetMyParcelsQuery(undefined);
   console.log(data);
   const [cancelParcel, { isLoading: isCancelling }] = useCancelParcelMutation();
+
+  // --- PAGINATION ---
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+  const totalItems = data?.data?.length || 0;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const createdParcels = data?.data?.slice(startIndex, endIndex) || [];
 
   const handleCancel = async (id: string) => {
     try {
@@ -49,7 +60,7 @@ const CreatedParcels = () => {
 
       <div className="max-w-6xl mx-auto mt-8 border border-slate-400 rounded-lg shadow">
         <h1 className="text-center py-4 text-xl font-semibold">
-          All My Created Parcels ({data?.data?.length || 0})
+          All My Created Parcels ({totalItems || 0})
         </h1>
 
         <Table>
@@ -69,7 +80,7 @@ const CreatedParcels = () => {
           </TableHeader>
 
           <TableBody>
-            {data?.data?.map((item: IParcelItem) => (
+            {createdParcels?.map((item: IParcelItem) => (
               <TableRow key={item._id}>
                 <TableCell>{item.trackingId}</TableCell>
                 <TableCell>{item.type}</TableCell>
@@ -145,6 +156,12 @@ const CreatedParcels = () => {
             ))}
           </TableBody>
         </Table>
+
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
       </div>
     </div>
   );

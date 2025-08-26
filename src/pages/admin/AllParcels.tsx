@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -14,12 +15,24 @@ import {
   useUnBlockParcelMutation,
 } from "@/redux/features/parcel/parcel.api";
 import type { IParcelItem } from "@/types/parcel.interface";
+import Pagination from "@/components/Pagination";
 
 const AllParcels = () => {
   const { data } = useGetAllParcelsQuery(undefined);
   const [blockParcel] = useBlockParcelMutation();
   const [unblockParcel] = useUnBlockParcelMutation();
 
+  // --- PAGINATION ---
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+  const totalItems = data?.data?.length || 0;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const parcels = data?.data?.slice(startIndex, endIndex) || [];
+
+  // --- Block/Unblock toggle ---
   const handleToggle = async (parcel: IParcelItem) => {
     const action = parcel.isBlocked ? "unblock" : "block";
     const confirmed = window.confirm(
@@ -44,9 +57,10 @@ const AllParcels = () => {
   return (
     <div className="mt-8 border border-slate-400 rounded-lg shadow">
       <h1 className="text-center py-4 text-xl font-semibold">
-        All Parcels ({data?.data?.length || 0})
+        All Parcels ({parcels.length})
       </h1>
 
+      {/* --- Table --- */}
       <Table>
         <TableHeader className="bg-slate-800 text-white">
           <TableRow>
@@ -54,10 +68,6 @@ const AllParcels = () => {
             <TableHead>Type</TableHead>
             <TableHead>Weight</TableHead>
             <TableHead>Fee</TableHead>
-            <TableHead>Pickup location</TableHead>
-            <TableHead>Delivered from</TableHead>
-            <TableHead>Delivery Date</TableHead>
-            <TableHead>Sender's info</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>isBlocked</TableHead>
             <TableHead>Action</TableHead>
@@ -65,24 +75,12 @@ const AllParcels = () => {
         </TableHeader>
 
         <TableBody>
-          {data?.data?.map((parcel: IParcelItem) => (
+          {parcels.map((parcel: IParcelItem) => (
             <TableRow key={parcel._id}>
               <TableCell>{parcel.trackingId}</TableCell>
               <TableCell>{parcel.type}</TableCell>
               <TableCell>{parcel.weight} kg</TableCell>
               <TableCell>{parcel.fee} ৳</TableCell>
-              <TableCell>{parcel.pickupAddress}</TableCell>
-              <TableCell>{parcel.deliveryAddress}</TableCell>
-              <TableCell>
-                {new Date(parcel.deliveryDate).toLocaleDateString()}
-              </TableCell>
-              <TableCell>
-                <small>
-                  Name: {parcel.sender.name}
-                  <br />
-                  Email: {parcel.sender.email}
-                </small>
-              </TableCell>
               <TableCell>
                 <span
                   className={`px-2 py-1 rounded text-xs font-medium ${
@@ -98,28 +96,16 @@ const AllParcels = () => {
                   {parcel.currentStatus}
                 </span>
               </TableCell>
-
               <TableCell>
                 {parcel.isBlocked ? (
-                  <span className="px-2 py-1 rounded text-xs font-medium bg-red-200 text-red-800">
-                    Yes
-                  </span>
+                  <span className="text-red-600 font-medium">Yes</span>
                 ) : (
-                  <span className="px-2 py-1 rounded text-xs font-medium bg-green-200 text-green-800">
-                    No
-                  </span>
+                  <span className="text-green-600 font-medium">No</span>
                 )}
               </TableCell>
-
               <TableCell>
-                {parcel?.isBlocked ? (
-                  <span> unblock </span>
-                ) : (
-                  <span> block </span>
-                )}
-
                 <Switch
-                  checked={!parcel.isBlocked} // switch ON means parcel is active
+                  checked={!parcel.isBlocked}
                   onCheckedChange={() => handleToggle(parcel)}
                 />
               </TableCell>
@@ -127,6 +113,12 @@ const AllParcels = () => {
           ))}
         </TableBody>
       </Table>
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 };

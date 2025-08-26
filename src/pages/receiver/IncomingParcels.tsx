@@ -26,12 +26,24 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useState } from "react";
+import Pagination from "@/components/Pagination";
 
 const IncomingParcels = () => {
   const { data } = useGetIncomingParcelsQuery(undefined);
-//   console.log(data);
-
   const [confirmParcel, { isLoading: isConfirming }] = useConfirmParcelMutation();
+
+  // --- PAGINATION ---
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+  const totalItems = data?.data?.length || 0;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const incomingParcels = data?.data?.slice(startIndex, endIndex) || [];
+
+
+
 
   const handleConfirm = async (id: string) => {
     try {
@@ -51,7 +63,7 @@ const IncomingParcels = () => {
 
       <div className="max-w-6xl mx-auto mt-8 border border-slate-400 rounded-lg shadow">
         <h1 className="text-center py-4 text-xl font-semibold">
-          All My Incoming Parcels ({data?.data?.length || 0})
+          All My Incoming Parcels ({totalItems || 0})
         </h1>
 
         <Table>
@@ -71,7 +83,7 @@ const IncomingParcels = () => {
           </TableHeader>
 
           <TableBody>
-            {data?.data?.map((item: IParcelItem) => (
+            {incomingParcels?.map((item: IParcelItem) => (
               <TableRow key={item._id}>
                 <TableCell>{item.trackingId}</TableCell>
                 <TableCell>{item.type}</TableCell>
@@ -149,6 +161,12 @@ const IncomingParcels = () => {
             ))}
           </TableBody>
         </Table>
+
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
       </div>
     </div>
   );

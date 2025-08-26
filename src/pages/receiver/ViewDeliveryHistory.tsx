@@ -8,19 +8,27 @@ import {
 } from "@/components/ui/table";
 import type { IParcelItem } from "@/types/parcel.interface";
 
-
 import { useGetDeliveredParcelsQuery } from "@/redux/features/parcel/parcel.api";
+import { useState } from "react";
+import Pagination from "@/components/Pagination";
 
 const ViewDeliveryHistory = () => {
-
-
   const { data } = useGetDeliveredParcelsQuery(undefined);
+
+  // --- PAGINATION ---
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+  const totalItems = data?.data?.length || 0;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const deliveredParcels = data?.data?.slice(startIndex, endIndex) || [];
 
   return (
     <div>
       <div className="max-w-6xl mx-auto mt-8 border border-slate-400 rounded-lg shadow">
         <h1 className="text-center py-4 text-xl font-semibold">
-          All My Delivered Parcels ({data?.data?.length || 0})
+          All My Delivered Parcels ({totalItems})
         </h1>
 
         <Table>
@@ -39,7 +47,7 @@ const ViewDeliveryHistory = () => {
           </TableHeader>
 
           <TableBody>
-            {data?.data?.map((item: IParcelItem) => (
+            {deliveredParcels?.map((item: IParcelItem) => (
               <TableRow key={item._id}>
                 <TableCell>{item.trackingId}</TableCell>
                 <TableCell>{item.type}</TableCell>
@@ -76,6 +84,12 @@ const ViewDeliveryHistory = () => {
             ))}
           </TableBody>
         </Table>
+
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
       </div>
     </div>
   );
