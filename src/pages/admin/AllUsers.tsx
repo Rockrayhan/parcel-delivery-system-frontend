@@ -1,7 +1,124 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  useBlockUserMutation,
+  useGetAllUsersQuery,
+  useUnblockUserMutation,
+} from "@/redux/features/auth/auth.api";
+import type { IUser } from "@/types/user.interface";
+import { toast } from "sonner";
+import { Switch } from "@/components/ui/switch";
+
 const AllUsers = () => {
+  const { data } = useGetAllUsersQuery(undefined);
+  const [blockUser] = useBlockUserMutation();
+  const [unblockUser] = useUnblockUserMutation();
+
+  const handleToggle = async (user: IUser) => {
+    const action = user.isBlocked ? "unblock" : "block";
+    const confirmed = window.confirm(
+      `Are you sure you want to ${action} ${user.email}?`
+    );
+    if (!confirmed) return;
+
+    try {
+      if (user.isBlocked) {
+        await unblockUser(user._id!).unwrap();
+        toast.success(`✅ ${user.email} has been unblocked successfully.`);
+      } else {
+        await blockUser(user._id!).unwrap();
+        toast.success(`✅ ${user.email} has been blocked successfully.`);
+      }
+    } catch (err: any) {
+      console.error(`${action} failed:`, err);
+      toast.error(err?.data?.message || "Something went wrong.");
+    }
+  };
+
   return (
-    <div>
-      <h1> view all users - admin </h1>
+    <div className="mt-8 border border-slate-400 rounded-lg shadow">
+      <h1 className="text-center py-4 text-xl font-semibold">
+        All Users ({data?.data?.length || 0})
+      </h1>
+
+      <Table>
+        <TableHeader className="bg-slate-800 text-white">
+          <TableRow>
+            <TableHead>Name</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Role</TableHead>
+            <TableHead>Blocked?</TableHead>
+            <TableHead>User Status</TableHead>
+            <TableHead>Joined on</TableHead>
+          </TableRow>
+        </TableHeader>
+
+        <TableBody>
+          {data?.data?.map((user: IUser) => (
+            <TableRow key={user._id}>
+              <TableCell>{user.name}</TableCell>
+              <TableCell>{user.email}</TableCell>
+              <TableCell>
+                <span
+                  className={`px-2 py-1 rounded text-xs font-medium ${
+                    user.role === "admin"
+                      ? "bg-purple-200 text-purple-800"
+                      : user.role === "sender"
+                      ? "bg-blue-200 text-blue-800"
+                      : "bg-green-200 text-green-800"
+                  }`}
+                >
+                  {user.role}
+                </span>
+              </TableCell>
+              <TableCell>
+                {user.isBlocked ? (
+                  <span className="px-2 py-1 rounded text-xs font-medium bg-red-200 text-red-800">
+                    Yes
+                  </span>
+                ) : (
+                  <span className="px-2 py-1 rounded text-xs font-medium bg-green-200 text-green-800">
+                    No
+                  </span>
+                )}
+              </TableCell>
+
+              <TableCell className="flex gap-2 items-center">
+                {user.role !== "admin" ? (
+                  <>
+                  { 
+                  user?.isBlocked ? <span> unblock </span>
+                  : 
+                  <span> block </span>
+
+                  }
+                  <Switch
+                    checked={!user.isBlocked} // switch ON means user is active
+                    onCheckedChange={() => handleToggle(user)}
+                    />
+                  </>
+                ) : (
+                  <p className="text-sm text-gray-500">
+                    Admin cannot be blocked
+                  </p>
+                )}
+              </TableCell>
+
+              <TableCell>
+                {user.createdAt
+                  ? new Date(user.createdAt).toLocaleDateString()
+                  : "—"}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 };

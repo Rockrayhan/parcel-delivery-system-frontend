@@ -1,5 +1,3 @@
-import { CreatedParcelModal } from "@/components/modules/sender/CreateParcelModal";
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -9,17 +7,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import type { IParcelItem } from "@/types/parcel.interface";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+
 
 import { useGetDeliveredParcelsQuery } from "@/redux/features/parcel/parcel.api";
 
@@ -47,7 +35,6 @@ const ViewDeliveryHistory = () => {
               <TableHead className="text-white">Delivery Date</TableHead>
               <TableHead className="text-white"> Sender's info </TableHead>
               <TableHead className="text-white">Status</TableHead>
-              {/* <TableHead className="text-center text-white">Action</TableHead> */}
             </TableRow>
           </TableHeader>
 
@@ -85,47 +72,6 @@ const ViewDeliveryHistory = () => {
                     {item.currentStatus}
                   </span>
                 </TableCell>
-                {/* <TableCell>
-                  {item.currentStatus === "Requested" ||
-                  item.currentStatus === "Approved" ? (
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button
-                          className="bg-green-600"
-                          size="sm"
-                          disabled={isConfirming}
-                        >
-                          Confim Delivery
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Confirm Parcel?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            Are you sure you want to Confirm this parcel?
-                            <br />
-                            This action cannot be undone.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Close</AlertDialogCancel>
-                          <AlertDialogAction
-                            onClick={() => handleConfirm(item._id)}
-                            disabled={isConfirming}
-                          >
-                            {isConfirming
-                              ? "Confirming..."
-                              : "Confirm delivery"}
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  ) : (
-                    <Button disabled size="sm" className="bg-green-600">
-                      Non-Confirmable
-                    </Button>
-                  )}
-                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>

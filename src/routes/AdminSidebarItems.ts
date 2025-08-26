@@ -8,7 +8,7 @@ const AllParcels = lazy( ()=> import('@/pages/admin/AllParcels')) ;
 
 export const AdminSidebarItems : ISidebarItems[] = [
   {
-    title: "Dashboard",
+    title: "Admin Dashboard",
     items: [
       {
         title: "All Users",
