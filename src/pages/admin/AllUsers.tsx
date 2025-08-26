@@ -30,10 +30,10 @@ const AllUsers = () => {
     try {
       if (user.isBlocked) {
         await unblockUser(user._id!).unwrap();
-        toast.success(`✅ ${user.email} has been unblocked successfully.`);
+        toast.success(`${user.email} has been unblocked successfully.`);
       } else {
         await blockUser(user._id!).unwrap();
-        toast.success(`✅ ${user.email} has been blocked successfully.`);
+        toast.success(`${user.email} has been blocked successfully.`);
       }
     } catch (err: any) {
       console.error(`${action} failed:`, err);

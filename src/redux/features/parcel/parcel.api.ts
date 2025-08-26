@@ -50,6 +50,40 @@ export const parcelApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["PARCEL"],
     }),
+
+
+    
+    getAllParcels: builder.query({
+      query: () => ({
+        url: "/parcel",
+        method: "GET",
+      }),
+      providesTags: ["PARCEL"],
+    }),
+
+
+
+    blockParcel: builder.mutation({
+      query: ({ id }) => ({
+        url: `/parcel/block/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["PARCEL"],
+    }),
+
+
+
+    unBlockParcel: builder.mutation({
+      query: ({ id }) => ({
+        url: `/parcel/unblock/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["PARCEL"],
+    }),
+
+
+
+
   }),
 });
 
@@ -60,4 +94,7 @@ export const {
   useGetIncomingParcelsQuery,
   useConfirmParcelMutation,
   useGetDeliveredParcelsQuery,
+  useGetAllParcelsQuery,
+  useBlockParcelMutation,
+  useUnBlockParcelMutation,
 } = parcelApi;

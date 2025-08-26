@@ -14,7 +14,7 @@ export default function DashboardLayout() {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="bg-background sticky top-0 flex h-16 shrink-0 items-center gap-10 border-b px-4">
+        <header className="bg-background sticky top-0 flex h-16 shrink-0 items-center gap-10 border-b px-4 z-10 ">
           <SidebarTrigger className="-ml-1" />
           <Link to="/"> <Button variant="outline"> <HomeIcon/> Home Page </Button> </Link>
         </header>

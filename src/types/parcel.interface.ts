@@ -8,6 +8,7 @@ export interface IParcelItem {
   deliveryAddress: string;
   deliveryDate: string;
   currentStatus: string;
+  isBlocked?: boolean;
   sender: {
     _id: string;
     name: string;
