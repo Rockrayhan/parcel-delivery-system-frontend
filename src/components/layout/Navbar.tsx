@@ -18,6 +18,8 @@ import { Link } from "react-router";
 const navigationLinks = [
   { href: "/", label: "Home", role: "PUBLIC" },
   { href: "/about", label: "About", role: "PUBLIC" },
+  { href: "/contact", label: "Contact", role: "PUBLIC" },
+  { href: "/track-parcel", label: "Track-Parcel", role: "PUBLIC" },
   { href: "/admin", label: "Dashboard", role: role.admin },
   { href: "/sender", label: "Dashboard", role: role.sender },
   { href: "/receiver", label: "Dashboard", role: role.receiver },
@@ -58,23 +60,6 @@ export default function Navbar() {
           </Link>
 
           <NavigationMenu className="h-full *:h-full max-md:hidden">
-            {/* <NavigationMenuList className="h-full gap-2">
-              {navigationLinks.map((link, index) => {
-                const isActive = location.pathname === link.href;
-                return (
-                  <NavigationMenuItem key={index} className="h-full">
-                    <NavigationMenuLink
-                      asChild
-                      className={`text-muted-foreground hover:text-primary border-b-primary hover:border-b-primary h-full justify-center rounded-none border-y-2 border-transparent py-1.5 font-medium hover:bg-transparent ${
-                        isActive ? "border-b-primary text-primary" : ""
-                      }`}
-                    >
-                      <Link to={link.href}>{link.label}</Link>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-                );
-              })}
-            </NavigationMenuList> */}
             <NavigationMenuList className="gap-2">
               {navigationLinks.map((link, index) => (
                 <>

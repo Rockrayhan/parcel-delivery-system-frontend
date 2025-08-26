@@ -13,6 +13,8 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import { role } from "@/constants/role";
 import { SenderSidebarItems } from "./SenderSidebarItems";
 import { ReceiverSidebarItems } from "./ReceiverSidebarItems";
+import UnAuthorized from "@/pages/UnAuthorized";
+import TrackParcel from "@/pages/TrackParcel";
 
 
 
@@ -27,12 +29,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "about",
-        // Component: withAuth(About),
         Component: About,
       },
       {
         path: "contact",
         Component: Contact,
+      },
+      {
+        path: "track-parcel",
+        Component: TrackParcel,
       },
     ],
   },
@@ -92,5 +97,9 @@ export const router = createBrowserRouter([
   {
     Component: Register,
     path: "/register",
+  },
+  {
+    Component: UnAuthorized,
+    path: "/unauthorized",
   },
 ]);

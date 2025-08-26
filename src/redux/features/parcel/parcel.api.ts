@@ -51,8 +51,6 @@ export const parcelApi = baseApi.injectEndpoints({
       invalidatesTags: ["PARCEL"],
     }),
 
-
-    
     getAllParcels: builder.query({
       query: () => ({
         url: "/parcel",
@@ -60,8 +58,6 @@ export const parcelApi = baseApi.injectEndpoints({
       }),
       providesTags: ["PARCEL"],
     }),
-
-
 
     blockParcel: builder.mutation({
       query: ({ id }) => ({
@@ -71,14 +67,21 @@ export const parcelApi = baseApi.injectEndpoints({
       invalidatesTags: ["PARCEL"],
     }),
 
-
-
     unBlockParcel: builder.mutation({
       query: ({ id }) => ({
         url: `/parcel/unblock/${id}`,
         method: "PATCH",
       }),
       invalidatesTags: ["PARCEL"],
+    }),
+
+
+    trackParcelByTid: builder.query({
+      query: (id: string) => ({
+        url: `/parcel/track/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["PARCEL"],
     }),
 
 
@@ -97,4 +100,5 @@ export const {
   useGetAllParcelsQuery,
   useBlockParcelMutation,
   useUnBlockParcelMutation,
+  useLazyTrackParcelByTidQuery,
 } = parcelApi;
