@@ -2,13 +2,14 @@ import { useUserInfoQuery } from "@/redux/features/auth/auth.api";
 import type { TRole } from "@/types";
 import type { ComponentType } from "react";
 import { Navigate } from "react-router";
+import { SkeletonCard } from "../provider/SkeletonCard";
 
 export const withAuth = (Component: ComponentType, requiredRole?: TRole) => {
   return function AuthWrapper() {
     const { data, isLoading } = useUserInfoQuery(undefined);
 
     if (isLoading) {
-      return <div>Loading...</div>; 
+      return <SkeletonCard/>; 
     }
 
     if (!isLoading && !data?.data?.email) {

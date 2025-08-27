@@ -5,9 +5,10 @@ import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
 import Pagination from "@/components/Pagination";
+import SkeletonTable from "@/components/provider/SkeletonTable";
 
 const AllUsers = () => {
-  const { data } = useGetAllUsersQuery(undefined); // get all users from backend
+  const { data, isLoading } = useGetAllUsersQuery(undefined); // get all users from backend
   const [blockUser] = useBlockUserMutation();
   const [unblockUser] = useUnblockUserMutation();
 
@@ -38,6 +39,12 @@ const AllUsers = () => {
       toast.error(err?.data?.message || "Something went wrong.");
     }
   };
+
+
+  if (isLoading) {
+    return <SkeletonTable/>
+  }
+
 
   return (
     <div className="mt-8 border border-slate-400 rounded-lg shadow">

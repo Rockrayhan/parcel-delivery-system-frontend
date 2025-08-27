@@ -1,6 +1,6 @@
 const Faqs = () => {
   return (
-    <div className="py-16">
+    <div className="py-24">
 
         <h3 className="text-primary text-4xl font-bold text-center"> Frequently Asked Questions </h3>
 

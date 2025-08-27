@@ -24,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import SkeletonTable from "@/components/provider/SkeletonTable";
 
 // All possible statuses
 const STATUS_OPTIONS = [
@@ -37,7 +38,7 @@ const STATUS_OPTIONS = [
 ];
 
 const AllParcels = () => {
-  const { data } = useGetAllParcelsQuery(undefined);
+  const { data, isLoading } = useGetAllParcelsQuery(undefined);
   const [blockParcel] = useBlockParcelMutation();
   const [unblockParcel] = useUnBlockParcelMutation();
 
@@ -103,13 +104,17 @@ const AllParcels = () => {
     }
   };
 
+  if( isLoading ) {
+    return <SkeletonTable/>
+  }
+
   return (
     <div className="mt-8 border border-slate-400 rounded-lg shadow">
       <h1 className="text-center py-4 text-xl font-semibold">
         All Parcels ({parcels.length})
       </h1>
 
-      {/* --- Table --- */}
+      
       <Table>
         <TableHeader className="bg-slate-800 text-white">
           <TableRow>

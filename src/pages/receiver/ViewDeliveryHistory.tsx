@@ -11,9 +11,10 @@ import type { IParcelItem } from "@/types/parcel.interface";
 import { useGetDeliveredParcelsQuery } from "@/redux/features/parcel/parcel.api";
 import { useState } from "react";
 import Pagination from "@/components/Pagination";
+import SkeletonTable from "@/components/provider/SkeletonTable";
 
 const ViewDeliveryHistory = () => {
-  const { data } = useGetDeliveredParcelsQuery(undefined);
+  const { data, isLoading } = useGetDeliveredParcelsQuery(undefined);
 
   // --- PAGINATION ---
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,6 +24,11 @@ const ViewDeliveryHistory = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const deliveredParcels = data?.data?.slice(startIndex, endIndex) || [];
+
+    if (isLoading) {
+      return <SkeletonTable/>
+    }
+  
 
   return (
     <div>

@@ -2,10 +2,10 @@
 
 const OurServices = () => {
   return (
-    <div>
+    <div className="py-10">
       {/* --- Service Description --- */}
       <section className="max-w-6xl mx-auto px-4 py-16">
-        <h2 className="text-3xl font-semibold mb-6 text-center">
+        <h2 className="text-primary text-4xl font-bold text-center mb-6">
           Our Services
         </h2>
         <p className="text-center text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8">

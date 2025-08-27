@@ -34,7 +34,7 @@ const Banner = () => {
           </div>
 
           <div>
-            <img src="/banner_img.png" alt="Parcel Delivery Management System" />
+            <img src="/banner_img.png" alt="Parcel Delivery Management System" loading="lazy" />
           </div>
         </div>
       </section>

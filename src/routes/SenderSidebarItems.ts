@@ -1,6 +1,9 @@
-
-import CreatedParcels from "@/pages/sender/CreatedParcels";
+// import CreatedParcels from "@/pages/sender/CreatedParcels";
 import type { ISidebarItems } from "@/types";
+import { lazy } from "react";
+
+
+const CreatedParcels = lazy( ()=> import('@/pages/sender/CreatedParcels')) ;
 
 export const SenderSidebarItems : ISidebarItems[] = [
   {

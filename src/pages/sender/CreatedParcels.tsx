@@ -28,9 +28,10 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useState } from "react";
 import Pagination from "@/components/Pagination";
+import SkeletonTable from "@/components/provider/SkeletonTable";
 
 const CreatedParcels = () => {
-  const { data } = useGetMyParcelsQuery(undefined);
+  const { data, isLoading } = useGetMyParcelsQuery(undefined);
   console.log(data);
   const [cancelParcel, { isLoading: isCancelling }] = useCancelParcelMutation();
 
@@ -54,6 +55,12 @@ const CreatedParcels = () => {
       toast.error(error?.data?.message || "Failed to cancel parcel");
     }
   };
+
+
+      if (isLoading) {
+        return <SkeletonTable/>
+      }
+    
 
   return (
     <div>
