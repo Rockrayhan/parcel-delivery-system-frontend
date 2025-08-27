@@ -50,7 +50,7 @@ export const router = createBrowserRouter([
       {
         path: "",
         // index : true,
-        element: <Navigate to="/admin/all-users" />,
+        element: <Navigate to="/admin/overview" />,
       },
       ...generateRoutes(AdminSidebarItems),
     ],
@@ -65,7 +65,7 @@ export const router = createBrowserRouter([
       {
         path: "",
         // index : true,
-        element: <Navigate to="/sender/created-parcels" />,
+        element: <Navigate to="/sender/sender-overview" />,
       },
       ...generateRoutes(SenderSidebarItems),
     ],
@@ -80,7 +80,7 @@ export const router = createBrowserRouter([
       {
         path: "",
         // index : true,
-        element: <Navigate to="/receiver/incoming-parcels" />,
+        element: <Navigate to="/receiver/receiver-overview" />,
       },
       ...generateRoutes(ReceiverSidebarItems),
     ],

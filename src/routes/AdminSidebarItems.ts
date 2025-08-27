@@ -1,5 +1,6 @@
 // import AllParcels from "@/pages/admin/AllParcels";
 // import AllUsers from "@/pages/admin/AllUsers";
+import AdminOverview from "@/pages/admin/AdminOverview";
 import type { ISidebarItems } from "@/types";
 import { lazy } from "react";
 
@@ -10,6 +11,11 @@ export const AdminSidebarItems : ISidebarItems[] = [
   {
     title: "Admin Dashboard",
     items: [
+      {
+        title: "Overview",
+        url: "/admin/overview",
+        component : AdminOverview,
+      },
       {
         title: "All Users",
         url: "/admin/all-users",
