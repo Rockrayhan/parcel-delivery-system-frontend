@@ -34,6 +34,7 @@ const CreatedParcels = () => {
   console.log(data);
   const [cancelParcel, { isLoading: isCancelling }] = useCancelParcelMutation();
 
+
   // --- PAGINATION ---
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;

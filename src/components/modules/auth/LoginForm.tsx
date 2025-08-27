@@ -36,10 +36,18 @@ export function LoginForm({
       console.log(result);
       toast.success("Successfully Logged in.");
       navigate('/') ;
-    } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong.. ! please try again");
-    }
+    } catch (error: any) {
+  console.error(error);
+
+  // Check if backend sent a message
+  const errorMessage =
+    error?.data?.message || // RTK Query usually puts server message here
+    error?.message || 
+    "Something went wrong.. ! Please try again";
+
+  toast.error(errorMessage);
+}
+
   };
 
   return (

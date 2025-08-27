@@ -13,6 +13,7 @@ import {
   useUserInfoQuery,
 } from "@/redux/features/auth/auth.api";
 import { useAppDispatch } from "@/redux/hook";
+import { useEffect } from "react";
 import { Link } from "react-router";
 
 const navigationLinks = [
@@ -49,6 +50,13 @@ export default function Navbar() {
       console.error("Logout failed:", error);
     }
   };
+
+
+  // handle block user 
+  
+  
+  
+
 
   return (
     <header className="border-b px-4 md:px-6">

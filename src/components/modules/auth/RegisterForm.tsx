@@ -46,9 +46,11 @@ export function RegisterForm({
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      const result = await registerUser(data).unwrap();
-      toast.success("Registration Successful!");
-      navigate("/login");
+      const res = await registerUser(data).unwrap();
+      if (res.success) {
+        toast.success("Registration Successful!");
+        navigate("/login");
+      }
     } catch (error: any) {
       console.error(error);
       toast.error(error?.data?.message || "Registration failed");
@@ -114,10 +116,20 @@ export function RegisterForm({
                 render={({ field }) => (
                   <div className="grid gap-2">
                     <Label htmlFor="role">Role</Label>
-                    <select id="role" {...field} className="input-class  border border-slate-600 p-2 rounded-md">
-                      <option className="bg-slate-900" value="">Select role</option>
-                      <option className="bg-slate-900" value="sender">Sender</option>
-                      <option className="bg-slate-900" value="receiver">Receiver</option>
+                    <select
+                      id="role"
+                      {...field}
+                      className="input-class  border border-slate-600 p-2 rounded-md"
+                    >
+                      <option className="bg-slate-900" value="">
+                        Select role
+                      </option>
+                      <option className="bg-slate-900" value="sender">
+                        Sender
+                      </option>
+                      <option className="bg-slate-900" value="receiver">
+                        Receiver
+                      </option>
                     </select>
                     <FormMessage />
                   </div>
