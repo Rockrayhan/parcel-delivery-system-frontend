@@ -1,9 +1,20 @@
+import Banner from "@/components/Banner";
+import Faqs from "@/components/Faqs";
+import NewsLetter from "@/components/NewsLetter";
+import OurMission from "@/components/OurMission";
+import OurServices from "@/components/OurServices";
+import OurTeam from "@/components/OurTeam";
 
 
 const Home = () => {
     return (
         <div>
-          <h1> Welocme Home </h1>  
+          <Banner/>
+          <OurServices/>
+          <OurMission/>
+          <Faqs/>
+          <OurTeam/>
+          <NewsLetter/>
         </div>
     );
 };

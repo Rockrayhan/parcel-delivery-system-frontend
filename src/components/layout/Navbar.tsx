@@ -59,7 +59,7 @@ export default function Navbar() {
 
   return (
     <header className="border-b px-4 md:px-6">
-      <div className="flex justify-between gap-4">
+      <div className="flex justify-between items-center gap-4">
         {/* Left side */}
         <div className="flex items-center gap-6 py-2">
           <Link to="/" className="text-primary hover:text-primary/90">
