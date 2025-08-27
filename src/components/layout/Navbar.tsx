@@ -13,7 +13,6 @@ import {
   useUserInfoQuery,
 } from "@/redux/features/auth/auth.api";
 import { useAppDispatch } from "@/redux/hook";
-import { useEffect } from "react";
 import { Link } from "react-router";
 
 const navigationLinks = [

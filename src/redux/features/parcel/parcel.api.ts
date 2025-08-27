@@ -75,7 +75,6 @@ export const parcelApi = baseApi.injectEndpoints({
       invalidatesTags: ["PARCEL"],
     }),
 
-
     trackParcelByTid: builder.query({
       query: (id: string) => ({
         url: `/parcel/track/${id}`,
@@ -84,6 +83,16 @@ export const parcelApi = baseApi.injectEndpoints({
       providesTags: ["PARCEL"],
     }),
 
+
+
+updateParcelStatus: builder.mutation({
+  query: ({ id, status }) => ({
+    url: `/parcel/status/${id}`,
+    method: "PATCH",
+    body: { currentStatus: status },
+  }),
+  invalidatesTags: ["PARCEL"],
+}),
 
 
 
@@ -101,4 +110,5 @@ export const {
   useBlockParcelMutation,
   useUnBlockParcelMutation,
   useLazyTrackParcelByTidQuery,
+  useUpdateParcelStatusMutation
 } = parcelApi;

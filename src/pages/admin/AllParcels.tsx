@@ -17,6 +17,25 @@ import {
 import type { IParcelItem } from "@/types/parcel.interface";
 import Pagination from "@/components/Pagination";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+// All possible statuses
+const STATUS_OPTIONS = [
+  "Requested",
+  "Approved",
+  "Dispatched",
+  "In Transit",
+  "Delivered",
+  "Cancelled",
+  "Returned",
+];
+
 const AllParcels = () => {
   const { data } = useGetAllParcelsQuery(undefined);
   const [blockParcel] = useBlockParcelMutation();
@@ -54,6 +73,36 @@ const AllParcels = () => {
     }
   };
 
+  // --- Direct fetch to update parcel status ---
+  const updateParcelStatusDirectly = async (parcelId: string, status: string) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/parcel/status/${parcelId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ currentStatus: status }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (response.ok) {
+        toast.success(`Status updated to ${status}`);
+        location.reload() ;
+        return result.data; // Updated parcel
+      } else {
+        toast.error(result.message || "Failed to update status");
+        console.error("Error:", result);
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Something went wrong");
+      console.error(err);
+    }
+  };
+
   return (
     <div className="mt-8 border border-slate-400 rounded-lg shadow">
       <h1 className="text-center py-4 text-xl font-semibold">
@@ -69,6 +118,7 @@ const AllParcels = () => {
             <TableHead>Weight</TableHead>
             <TableHead>Fee</TableHead>
             <TableHead>Status</TableHead>
+            <TableHead>Update Status</TableHead>
             <TableHead>isBlocked</TableHead>
             <TableHead>Action</TableHead>
           </TableRow>
@@ -81,6 +131,7 @@ const AllParcels = () => {
               <TableCell>{parcel.type}</TableCell>
               <TableCell>{parcel.weight} kg</TableCell>
               <TableCell>{parcel.fee} ৳</TableCell>
+
               <TableCell>
                 <span
                   className={`px-2 py-1 rounded text-xs font-medium ${
@@ -96,6 +147,27 @@ const AllParcels = () => {
                   {parcel.currentStatus}
                 </span>
               </TableCell>
+
+              <TableCell>
+                <Select
+                  onValueChange={async (value) => {
+                    await updateParcelStatusDirectly(parcel._id, value);
+                  }}
+                  defaultValue={parcel.currentStatus}
+                >
+                  <SelectTrigger className="w-[140px]">
+                    <SelectValue placeholder="Update status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {STATUS_OPTIONS.map((status) => (
+                      <SelectItem key={status} value={status}>
+                        {status}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </TableCell>
+
               <TableCell>
                 {parcel.isBlocked ? (
                   <span className="text-red-600 font-medium">Yes</span>
@@ -103,6 +175,7 @@ const AllParcels = () => {
                   <span className="text-green-600 font-medium">No</span>
                 )}
               </TableCell>
+
               <TableCell>
                 <Switch
                   checked={!parcel.isBlocked}
