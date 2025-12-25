@@ -15,6 +15,8 @@ import { SenderSidebarItems } from "./SenderSidebarItems";
 import { ReceiverSidebarItems } from "./ReceiverSidebarItems";
 import UnAuthorized from "@/pages/UnAuthorized";
 import TrackParcel from "@/pages/TrackParcel";
+import Services from "@/pages/Services";
+import ServiceDetails from "@/components/ServiceDetails";
 
 
 
@@ -34,6 +36,14 @@ export const router = createBrowserRouter([
       {
         path: "contact",
         Component: Contact,
+      },
+      {
+        path: "services",
+        Component: Services,
+      },
+      {
+        path: "services/:id",
+        Component: ServiceDetails ,
       },
       {
         path: "track-parcel",

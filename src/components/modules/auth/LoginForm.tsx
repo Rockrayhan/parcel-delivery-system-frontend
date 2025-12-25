@@ -16,7 +16,6 @@ export function LoginForm({
   const navigate = useNavigate();
   const [login] = useLoginMutation();
 
-
   const form = useForm({
     defaultValues: {
       email: "",
@@ -25,29 +24,27 @@ export function LoginForm({
   });
 
   const onSubmit = async (data: any) => {
-    const userInfo = {
-      email: data.email,
-      password: data.password,
-    };
-    console.log(userInfo);
-
     try {
-      const result = await login(userInfo).unwrap();
-      console.log(result);
-      toast.success("Successfully Logged in.");
-      navigate('/') ;
+      const result = await login(data).unwrap();
+      toast.success("Successfully logged in");
+      navigate("/");
     } catch (error: any) {
-  console.error(error);
+      const errorMessage =
+        error?.data?.message ||
+        error?.message ||
+        "Something went wrong! Please try again.";
 
-  // Check if backend sent a message
-  const errorMessage =
-    error?.data?.message || // RTK Query usually puts server message here
-    error?.message || 
-    "Something went wrong.. ! Please try again";
+      toast.error(errorMessage);
+    }
+  };
 
-  toast.error(errorMessage);
-}
+  // ✅ Demo Login Handler
+  // Demo credential autofill (NO auto-submit)
+  const handleDemoFill = (email: string) => {
+    form.setValue("email", email, { shouldDirty: true });
+    form.setValue("password", "123456789", { shouldDirty: true });
 
+    toast.info("Demo credentials filled. Click Login to continue.");
   };
 
   return (
@@ -61,7 +58,7 @@ export function LoginForm({
                   <h1 className="text-2xl font-bold">Login to your account</h1>
                 </div>
 
-                {/* email */}
+                {/* Email */}
                 <div className="grid gap-3">
                   <Label htmlFor="email">Email</Label>
                   <Input
@@ -73,11 +70,9 @@ export function LoginForm({
                   />
                 </div>
 
-                {/* password */}
+                {/* Password */}
                 <div className="grid gap-3">
-                  <div className="flex items-center">
-                    <Label htmlFor="password">Password</Label>
-                  </div>
+                  <Label htmlFor="password">Password</Label>
                   <Input
                     id="password"
                     type="password"
@@ -90,6 +85,40 @@ export function LoginForm({
                   Login
                 </Button>
 
+                
+                {/* 🔥 Demo Credentials */}
+                <div className="space-y-2">
+                  <p className="text-center text-sm text-muted-foreground">
+                    Try demo accounts
+                  </p>
+
+                  <div className="grid grid-cols-1 gap-2">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => handleDemoFill("admin@gmail.com")}
+                    >
+                      Demo Admin Login
+                    </Button>
+
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => handleDemoFill("sender@gmail.com")}
+                    >
+                      Demo Sender Login
+                    </Button>
+
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => handleDemoFill("receiver@gmail.com")}
+                    >
+                      Demo Receiver Login
+                    </Button>
+                  </div>
+                </div>
+
                 <div className="text-center text-sm">
                   Don&apos;t have an account?{" "}
                   <Link to="/register" className="underline underline-offset-4">
@@ -99,10 +128,12 @@ export function LoginForm({
               </div>
             </form>
           </Form>
+
+          {/* Right Image */}
           <div className="bg-muted relative hidden md:block">
             <img
               src="/login.png"
-              alt="Image"
+              alt="Login illustration"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.6]"
             />
           </div>

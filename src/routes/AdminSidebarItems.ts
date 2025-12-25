@@ -1,6 +1,7 @@
 // import AllParcels from "@/pages/admin/AllParcels";
 // import AllUsers from "@/pages/admin/AllUsers";
 import AdminOverview from "@/pages/admin/AdminOverview";
+import AllServices from "@/pages/admin/AllServices";
 import type { ISidebarItems } from "@/types";
 import { lazy } from "react";
 
@@ -17,25 +18,20 @@ export const AdminSidebarItems : ISidebarItems[] = [
         component : AdminOverview,
       },
       {
-        title: "All Users",
+        title: "All Manage Users",
         url: "/admin/all-users",
         component : AllUsers,
       },
       {
-        title: "All Parcels",
+        title: "Manage All Parcels",
         url: "/admin/all-parcels",
         component : AllParcels,
       },
+      {
+        title: "Manage All Services",
+        url: "/admin/all-services",
+        component : AllServices,
+      },
     ],
   },
-//   {
-//     title: "Tour Management",
-//     items: [
-//       {
-//         title: "Add Tour",
-//         url: "/admin/add-tour",
-//         component : AddTour
-//       },
-//     ],
-//   },
 ];

@@ -2,7 +2,7 @@ const OurTeam = () => {
   return (
     <div>
       {/* --- Team Info --- */}
-      <section className="max-w-6xl mx-auto px-4 py-16">
+      <section className="max-w-6xl mx-auto px-4 py-16 ">
         <h2 className="text-primary text-4xl font-bold text-center mb-6">
           Meet Our Team
         </h2>

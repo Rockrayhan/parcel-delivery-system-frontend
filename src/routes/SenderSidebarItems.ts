@@ -17,7 +17,7 @@ export const SenderSidebarItems : ISidebarItems[] = [
         component : SenderOverview,
       },
       {
-        title: "All Created parcels",
+        title: "Manage All parcels",
         url: "/sender/created-parcels",
         component : CreatedParcels,
       },
