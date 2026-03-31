@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router";
+import {  useParams } from "react-router";
 import { useGetAllServicesQuery, useGetServiceByIdQuery } from "@/redux/features/services/services.api";
 import { SkeletonCard } from "./provider/SkeletonCard";
 import Faqs from "./Faqs";

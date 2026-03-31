@@ -16,6 +16,8 @@ export function LoginForm({
   const navigate = useNavigate();
   const [login] = useLoginMutation();
 
+
+
   const form = useForm({
     defaultValues: {
       email: "",
@@ -26,24 +28,33 @@ export function LoginForm({
   const onSubmit = async (data: any) => {
     try {
       const result = await login(data).unwrap();
-      toast.success("Successfully logged in");
-      navigate("/");
-    } catch (error: any) {
-      const errorMessage =
-        error?.data?.message ||
-        error?.message ||
-        "Something went wrong! Please try again.";
+      console.log(result);
+      
+      
+      const userRole = result?.data?.user?.role;
+      console.log(userRole);
+      
 
-      toast.error(errorMessage);
+      toast.success("Successfully logged in");
+
+      if (userRole === "sender") {
+        navigate("/sender/sender-overview");
+      } else if (userRole === "receiver") {
+        navigate("/receiver/receiver-overview");
+      } else {
+        navigate("/admin/overview");
+      }
+    } catch (error: any) {
+      toast.error(
+        error?.data?.message || error?.message || "Something went wrong!"
+      );
     }
   };
 
   // ✅ Demo Login Handler
-  // Demo credential autofill (NO auto-submit)
   const handleDemoFill = (email: string) => {
     form.setValue("email", email, { shouldDirty: true });
     form.setValue("password", "123456789", { shouldDirty: true });
-
     toast.info("Demo credentials filled. Click Login to continue.");
   };
 
@@ -85,7 +96,6 @@ export function LoginForm({
                   Login
                 </Button>
 
-                
                 {/* 🔥 Demo Credentials */}
                 <div className="space-y-2">
                   <p className="text-center text-sm text-muted-foreground">
