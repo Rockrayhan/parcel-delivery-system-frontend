@@ -20,6 +20,7 @@ const ServiceCard = ({ service }: ServiceCardProps) => {
           src={service.img_url}
           alt={service.title}
           className="w-full h-44 object-cover transform transition-transform duration-500 group-hover:scale-110"
+          loading="lazy"
         />
       </div>
 
